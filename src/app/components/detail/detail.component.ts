@@ -9,18 +9,36 @@ export class DetailComponent implements OnInit {
 
   @Input() recebeFamilia;
   @Output() respostaFamilia = new EventEmitter();
+  familia: any[];
   whoAmI = 'I am Detail';
+  show: boolean = false;
 
   @Output() notifyParent: EventEmitter<any> = new EventEmitter();
 
-  sendNotification() {
-    this.notifyParent.emit('Some value to send to the parent');
+
+  constructor() {
+    this.familia = [
+      {
+        nome: 'Everton',
+        sobreNome: 'Silva'
+      },
+      {
+        nome: 'Luciano',
+        sobreNome: 'Silva'
+      },
+      {
+        nome: 'Daniel',
+        sobreNome: 'Silva'
+      }
+    ];
   }
 
-  constructor() { }
+  sendNotification(f) {
+    this.notifyParent.emit(`Pai, te mandei um clique!! ${f.nome} ${f.sobreNome}`);
+  }
 
   ngOnInit(): void {
-    console.log('Who am I? ', this.whoAmI, 'recebi família ');
+    console.log('Who am I? ', this.whoAmI, 'recebi filhos ');
   }
 
 }

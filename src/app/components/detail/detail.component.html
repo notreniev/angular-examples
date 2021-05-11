@@ -1,3 +1,7 @@
 <p>detail works!</p>
 
-<button (click)="sendNotification()">Notify my parent!</button>
+<ul>
+    <li *ngFor="let f of familia">
+        <button (click)="sendNotification(f)">{{f.nome}} {{f.sobreNome}}</button>
+    </li>
+</ul>
