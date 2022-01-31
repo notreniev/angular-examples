@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MasterComponent } from './components/master/master.component';
+import { EventParentComponent } from './components/event-parent/event-parent.component';
 import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
-  { path: 'master', component: MasterComponent }
+  { path: 'parent', component: EventParentComponent }
 ];
 
 @NgModule({

@@ -1,0 +1,7 @@
+<p>Child component!</p>
+
+<ul>
+    <li *ngFor="let child of children; let i = index">
+        Son {{i}}): <button (click)="sendNotification(child)">{{child.nome}} {{child.sobreNome}}</button>
+    </li>
+</ul>

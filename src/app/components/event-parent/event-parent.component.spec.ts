@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MasterComponent } from './master.component';
+import { EventParentComponent } from './event-parent.component';
 
-describe('MasterComponent', () => {
-  let component: MasterComponent;
-  let fixture: ComponentFixture<MasterComponent>;
+describe('EventParentComponent', () => {
+  let component: EventParentComponent;
+  let fixture: ComponentFixture<EventParentComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MasterComponent ]
+      declarations: [ EventParentComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MasterComponent);
+    fixture = TestBed.createComponent(EventParentComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

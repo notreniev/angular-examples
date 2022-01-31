@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { getListOfItemMock } from '../examples/domain/mocks/item.mock';
-import { ItemModel } from '../examples/domain/models/item.model';
 
 @Component({
   selector: 'app-home',

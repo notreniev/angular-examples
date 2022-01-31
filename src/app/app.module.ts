@@ -4,15 +4,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { MasterComponent } from './components/master/master.component';
-import { DetailComponent } from './components/detail/detail.component';
+import { EventChildComponent } from './components/event-child/event-child.component';
+import { EventParentComponent } from './components/event-parent/event-parent.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    MasterComponent,
-    DetailComponent
+    EventChildComponent,
+    EventParentComponent
   ],
   imports: [
     BrowserModule,
