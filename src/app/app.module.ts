@@ -6,13 +6,15 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { EventChildComponent } from './components/event-child/event-child.component';
 import { EventParentComponent } from './components/event-parent/event-parent.component';
+import { InputAutocompleteComponent } from './components/input-autocomplete/input-autocomplete.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     EventChildComponent,
-    EventParentComponent
+    EventParentComponent,
+    InputAutocompleteComponent
   ],
   imports: [
     BrowserModule,
