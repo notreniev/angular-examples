@@ -13,6 +13,13 @@ export class EventChildComponent implements OnInit {
   show: boolean = false;
 
   constructor() {
+  }
+
+  sendNotification(f: any) {
+    this.notifyParent.emit(`${f.nome} ${f.sobreNome}`);
+  }
+
+  ngOnInit(): void {
     this.children = [
       {
         nome: 'Everton',
@@ -27,13 +34,6 @@ export class EventChildComponent implements OnInit {
         sobreNome: 'Silva'
       }
     ];
-  }
-
-  sendNotification(f) {
-    this.notifyParent.emit(`${f.nome} ${f.sobreNome}`);
-  }
-
-  ngOnInit(): void {
   }
 
 }
