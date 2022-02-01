@@ -37,9 +37,8 @@ export class InputAutocompleteComponent implements OnInit, AfterViewInit, OnDest
    * @returns 
    */
   public fakeCountriesRequest(keys: string): Observable<ItemModel[]> {
-    const getCountries = (keys: string) => countries
-      .filter(e => e.name.toLowerCase()
-        .startsWith(keys.toLowerCase()));
+    const getCountries = (keys: string) =>
+      countries.filter(e => e.name.toLowerCase().startsWith(keys.toLowerCase()));
 
     if (!keys || keys.length < 2) return of([]);
     return of(getCountries(keys)).pipe(
@@ -56,6 +55,8 @@ export class InputAutocompleteComponent implements OnInit, AfterViewInit, OnDest
   public clicked(e?: HTMLInputElement): void {
     if (!e.innerText) return;
     this.inputValue = e.innerText;
+    this.outputRef.nativeElement.innerHTML = [];
+    e.innerText = "";
   }
 
   ngOnDestroy(): void {
