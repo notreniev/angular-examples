@@ -7,6 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { EventChildComponent } from './components/event-child/event-child.component';
 import { EventParentComponent } from './components/event-parent/event-parent.component';
 import { InputAutocompleteComponent } from './components/input-autocomplete/input-autocomplete.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { InputAutocompleteComponent } from './components/input-autocomplete/inpu
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule
   ],
   providers: [],

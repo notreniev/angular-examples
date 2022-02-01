@@ -1,0 +1,39 @@
+:host::ng-deep .li {
+    padding: 4px 4px; 
+    margin: 2px;
+}
+
+:host::ng-deep .li:hover {
+    background-color: #dddddd;
+}
+
+ul {
+  display: inline-block;
+  width: 153px;
+  background-color: #444444;
+  color: #ffffff;
+  cursor: pointer;
+  list-style-type: none;
+  margin: 0;
+  padding: 0px;
+}
+
+#input {
+  display: inline-block;
+}
+
+.container {
+  max-width: 200px;
+  position: relative;
+  display: inline-block;
+  margin-top: -20px;
+}
+
+.container-output {
+  position: absolute;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  left: 0;
+  right: 0;
+}

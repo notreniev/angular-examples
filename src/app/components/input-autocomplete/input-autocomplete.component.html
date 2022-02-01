@@ -1,5 +1,11 @@
-<p>input-autocomplete works!</p>
+<p>Autocomplete Example</p>
 
-<input id="type-ahead" />
-<hr />
-<div id="output"></div>
+<div class="container">
+    <div id="setter">
+        <input (keyup)="onkeyup($event)" [(ngModel)]="inputValue"/>
+    </div>
+
+    <div class="container-output">
+        <ul id="output"></ul>
+    </div>
+</div>
