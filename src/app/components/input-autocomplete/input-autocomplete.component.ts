@@ -1,7 +1,8 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { fromEvent, of, Subscription } from 'rxjs';
+import { fromEvent, Observable, of, Subscription } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, map, startWith, switchMap, tap } from 'rxjs/operators';
 import countries from '../../../assets/data/countries.json';
+import { ItemModel } from '../../domain/models/item.model';
 
 @Component({
   selector: 'app-input-autocomplete',
@@ -26,7 +27,7 @@ export class InputAutocompleteComponent implements OnInit, AfterViewInit, OnDest
         distinctUntilChanged(),
         switchMap(term => this.fakeCountriesRequest(term)),
         catchError((source) => source.pipe(startWith([])))
-      ).subscribe((data: string[]) => this.showResults(data));
+      ).subscribe((data: ItemModel[]) => this.showResults(data));
   }
 
   /**
@@ -35,7 +36,7 @@ export class InputAutocompleteComponent implements OnInit, AfterViewInit, OnDest
    * @param keys 
    * @returns 
    */
-  public fakeCountriesRequest(keys: string) {
+  public fakeCountriesRequest(keys: string): Observable<ItemModel[]> {
     const getCountries = (keys: string) => countries
       .filter(e => e.name.toLowerCase()
         .startsWith(keys.toLowerCase()));
@@ -46,13 +47,13 @@ export class InputAutocompleteComponent implements OnInit, AfterViewInit, OnDest
     );
   }
 
-  public showResults(res: string[]): void {
+  public showResults(res: ItemModel[]): void {
     this.outputRef.nativeElement.innerHTML = res
-      .map((e: any) => `<li class="list-item">${e?.name}</li>`).join('');
+      .map((e: ItemModel) => `<li class="list-item">${e?.name}</li>`).join('');
   }
 
   @HostListener('click', ['$event.target'])
-  public clicked(e?: HTMLInputElement) {
+  public clicked(e?: HTMLInputElement): void {
     if (!e.innerText) return;
     this.inputValue = e.innerText;
   }
