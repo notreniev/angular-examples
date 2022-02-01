@@ -1,24 +1,33 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
-import { fromEvent, of } from 'rxjs';
+import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { fromEvent, of, Subscription } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, map, startWith, switchMap, tap } from 'rxjs/operators';
 import countries from '../../../assets/data/countries.json';
-
-const getCountries = (keys: string) => countries.filter(e => e.name.toLowerCase().startsWith(keys.toLowerCase()));
 
 @Component({
   selector: 'app-input-autocomplete',
   templateUrl: './input-autocomplete.component.html',
   styleUrls: ['./input-autocomplete.component.css']
 })
-export class InputAutocompleteComponent implements OnInit {
-  @ViewChild("output")
-  public outputRef: ElementRef<HTMLElement>;
-
+export class InputAutocompleteComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild("input") inputRef: ElementRef;
+  @ViewChild("output") outputRef: ElementRef;
   public inputValue = "";
+  public keyupSubscription: Subscription;
 
   constructor() { }
 
   ngOnInit(): void { }
+
+  ngAfterViewInit(): void {
+    this.keyupSubscription = fromEvent(this.inputRef.nativeElement, 'keyup')
+      .pipe(
+        debounceTime(200),
+        map((e: Event): string => (e.target as HTMLInputElement).value),
+        distinctUntilChanged(),
+        switchMap(term => this.fakeCountriesRequest(term)),
+        catchError((source) => source.pipe(startWith([])))
+      ).subscribe((data: string[]) => this.showResults(data));
+  }
 
   /**
    * Temporarily mocked data
@@ -27,38 +36,29 @@ export class InputAutocompleteComponent implements OnInit {
    * @returns 
    */
   public fakeCountriesRequest(keys: string) {
+    const getCountries = (keys: string) => countries
+      .filter(e => e.name.toLowerCase()
+        .startsWith(keys.toLowerCase()));
+
     if (!keys || keys.length < 2) return of([]);
     return of(getCountries(keys)).pipe(
-      tap(_ => getCountries(keys))
+      tap(() => getCountries(keys))
     );
   }
 
-  /**
-   * Input event listener to 
-   * filter the results
-   * 
-   * @param event 
-   */
-  onkeyup(event: Event) {
-    const ev = fromEvent(event.target, 'keyup');
-    ev.pipe(
-      debounceTime(200),
-      map((e: Event): string => (e.target as HTMLInputElement).value),
-      distinctUntilChanged(),
-      switchMap(term => this.fakeCountriesRequest(term)),
-      catchError((source) => source.pipe(startWith([])))
-    ).subscribe(this.showResults);
-  }
-
   public showResults(res: string[]): void {
-    const output = document.getElementById('output');
-    output.innerHTML = res.map((e: any) => `<li class="li">${e?.name}</li>`).join('');
+    this.outputRef.nativeElement.innerHTML = res
+      .map((e: any) => `<li class="list-item">${e?.name}</li>`).join('');
   }
 
   @HostListener('click', ['$event.target'])
   public clicked(e?: HTMLInputElement) {
     if (!e.innerText) return;
     this.inputValue = e.innerText;
+  }
+
+  ngOnDestroy(): void {
+    this.keyupSubscription.unsubscribe();
   }
 
 }

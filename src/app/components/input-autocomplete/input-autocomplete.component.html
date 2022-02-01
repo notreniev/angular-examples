@@ -2,10 +2,10 @@
 
 <div class="container">
     <div id="setter">
-        <input (keyup)="onkeyup($event)" [(ngModel)]="inputValue"/>
+        <input #input [(ngModel)]="inputValue"/>
     </div>
 
     <div class="container-output">
-        <ul id="output"></ul>
+        <ul #output></ul>
     </div>
 </div>
