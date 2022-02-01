@@ -27,7 +27,8 @@ export class InputAutocompleteComponent implements OnInit, AfterViewInit, OnDest
         distinctUntilChanged(),
         switchMap(term => this.fakeCountriesRequest(term)),
         catchError((source) => source.pipe(startWith([])))
-      ).subscribe((data: ItemModel[]) => this.showResults(data));
+      )
+      .subscribe((data: ItemModel[]) => this.showResults(data));
   }
 
   /**
@@ -37,13 +38,9 @@ export class InputAutocompleteComponent implements OnInit, AfterViewInit, OnDest
    * @returns 
    */
   public fakeCountriesRequest(keys: string): Observable<ItemModel[]> {
-    const getCountries = (keys: string) =>
-      countries.filter(e => e.name.toLowerCase().startsWith(keys.toLowerCase()));
-
     if (!keys || keys.length < 2) return of([]);
-    return of(getCountries(keys)).pipe(
-      tap(() => getCountries(keys))
-    );
+    const getCountries = (keys: string) => countries.filter(e => e.name.toLowerCase().startsWith(keys.toLowerCase()));
+    return of(getCountries(keys)).pipe(tap(() => getCountries(keys)));
   }
 
   public showResults(res: ItemModel[]): void {
