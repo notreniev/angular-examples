@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { fromEvent, Observable, of, Subscription } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, map, startWith, switchMap, tap } from 'rxjs/operators';
-import countries from '../../../assets/data/countries.json';
-import { ItemModel } from '../../domain/models/item.model';
+import { CountryModel } from '../../domain/models/country.model';
+import { CountryService } from '../../services/country.service';
 
 @Component({
   selector: 'app-input-autocomplete',
@@ -14,13 +14,14 @@ export class InputAutocompleteComponent implements OnInit, AfterViewInit, OnDest
   @ViewChild("output") outputRef: ElementRef;
   public inputValue = "";
   public keyupSubscription: Subscription;
-  public countries: ItemModel[] = [];
-  public selectedOption: ItemModel;
+  public countries: CountryModel[] = [];
+  public selectedOption: CountryModel;
   public isDisplayed: boolean;
 
-  constructor() { }
+  constructor(protected countryService: CountryService) { }
 
-  public ngOnInit(): void { }
+  public ngOnInit(): void {
+  }
 
   public ngAfterViewInit(): void {
     this.doFilter();
@@ -40,15 +41,15 @@ export class InputAutocompleteComponent implements OnInit, AfterViewInit, OnDest
         switchMap(term => this.fakeCountriesRequest(term)),
         catchError((source) => source.pipe(startWith([])))
       )
-      .subscribe((data: ItemModel[]) => this.showResults(data));
+      .subscribe((data: CountryModel[]) => this.showResults(data));
   }
 
-  public showResults(data: ItemModel[]): void {
+  public showResults(data: CountryModel[]): void {
     this.countries = data;
     this.isDisplayed = true;
   }
 
-  public selectOption(option: ItemModel): void {
+  public selectOption(option: CountryModel): void {
     this.inputValue = option.name;
     this.selectedOption = option;
     this.countries = [];
@@ -64,13 +65,15 @@ export class InputAutocompleteComponent implements OnInit, AfterViewInit, OnDest
    * @param keys 
    * @returns 
    */
-  public fakeCountriesRequest(name?: string): Observable<ItemModel[]> {
+  public fakeCountriesRequest(name?: string): Observable<CountryModel[]> {
     // if (!term || term.length < 2) return of([]);
     const getCountries = (name?: string) => {
       if (name && name.length > 0) {
-        return countries.filter(country => country.name.toLowerCase().startsWith(name.toLowerCase()));
+        return this.countryService
+          .getCountryList()
+          .filter(country => country.name.toLowerCase().startsWith(name.toLowerCase()));
       } else {
-        return countries;
+        return this.countryService.getCountryList();
       }
     };
     return of(getCountries(name)).pipe(tap(() => getCountries(name)));
