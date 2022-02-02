@@ -7,7 +7,7 @@ import { HomeComponent } from './home/home.component';
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'parent', component: EventParentComponent },
-  { path: 'family', component: InputAutocompleteComponent }
+  { path: 'autocomplete', component: InputAutocompleteComponent }
 ];
 
 @NgModule({

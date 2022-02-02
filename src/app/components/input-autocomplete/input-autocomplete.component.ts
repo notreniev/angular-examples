@@ -14,12 +14,20 @@ export class InputAutocompleteComponent implements OnInit, AfterViewInit, OnDest
   @ViewChild("output") outputRef: ElementRef;
   public inputValue = "";
   public keyupSubscription: Subscription;
+  public countries: ItemModel[] = [];
+  public selected: ItemModel;
 
   constructor() { }
 
 
   public ngAfterViewInit(): void {
     this.filterCountriesFromInput();
+  }
+
+  public selectOption(event){
+    console.log('selected', event.target.value, this.selected)
+    this.inputValue = this.selected.name;
+    this.countries = [];
   }
 
   public ngOnInit(): void { }
@@ -42,16 +50,19 @@ export class InputAutocompleteComponent implements OnInit, AfterViewInit, OnDest
   }
 
   public showResults(res: ItemModel[]): void {
+    this.countries = res;
     this.outputRef.nativeElement.innerHTML = res
-      .map((e: ItemModel) => `<li class="list-item">${e?.name}</li>`).join('');
+      .map((e: ItemModel) => `<li class="list-item" value="${e?.code}">${e?.name}</li>`).join('');
   }
 
   @HostListener('click', ['$event.target'])
-  public clicked(e?: HTMLInputElement): void {
-    if (!e.innerText) return;
-    this.inputValue = e.innerText;
+  public clicked(elem?: HTMLElement): void {
+    if (!elem.innerText) return;
+    const selectedCode = elem.getAttribute('value');
+    this.inputValue = elem.innerText;
+    this.selected = {name: this.inputValue, code: selectedCode};
     this.outputRef.nativeElement.innerHTML = [];
-    e.innerText = "";
+    elem.innerText = "";
   }
 
   public ngOnDestroy(): void {
