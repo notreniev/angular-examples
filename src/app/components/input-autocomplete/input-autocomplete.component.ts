@@ -23,7 +23,7 @@ export class InputAutocompleteComponent implements OnInit, AfterViewInit, OnDest
   public ngOnInit(): void { }
 
   public ngAfterViewInit(): void {
-    this.filter();
+    this.doFilter();
   }
 
   /**
@@ -31,7 +31,7 @@ export class InputAutocompleteComponent implements OnInit, AfterViewInit, OnDest
    * the users's input
    * 
    */
-  public filter(): void {
+  public doFilter(): void {
     this.keyupSubscription = fromEvent(this.inputRef.nativeElement, 'keyup')
       .pipe(
         debounceTime(200),
