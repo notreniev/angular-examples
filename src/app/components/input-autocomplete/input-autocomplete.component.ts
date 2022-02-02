@@ -17,9 +17,19 @@ export class InputAutocompleteComponent implements OnInit, AfterViewInit, OnDest
 
   constructor() { }
 
-  ngOnInit(): void { }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
+    this.filterCountriesFromInput();
+  }
+
+  public ngOnInit(): void { }
+
+  /**
+   * Starts to listen values from 
+   * the users's input
+   * 
+   */
+  public filterCountriesFromInput(): void {
     this.keyupSubscription = fromEvent(this.inputRef.nativeElement, 'keyup')
       .pipe(
         debounceTime(200),
@@ -29,18 +39,6 @@ export class InputAutocompleteComponent implements OnInit, AfterViewInit, OnDest
         catchError((source) => source.pipe(startWith([])))
       )
       .subscribe((data: ItemModel[]) => this.showResults(data));
-  }
-
-  /**
-   * Temporarily mocked data
-   * 
-   * @param keys 
-   * @returns 
-   */
-  public fakeCountriesRequest(keys: string): Observable<ItemModel[]> {
-    if (!keys || keys.length < 2) return of([]);
-    const getCountries = (keys: string) => countries.filter(e => e.name.toLowerCase().startsWith(keys.toLowerCase()));
-    return of(getCountries(keys)).pipe(tap(() => getCountries(keys)));
   }
 
   public showResults(res: ItemModel[]): void {
@@ -56,8 +54,20 @@ export class InputAutocompleteComponent implements OnInit, AfterViewInit, OnDest
     e.innerText = "";
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.keyupSubscription.unsubscribe();
+  }
+
+  /**
+   * Temporarily mocked data
+   * 
+   * @param keys 
+   * @returns 
+   */
+  public fakeCountriesRequest(term: string): Observable<ItemModel[]> {
+    if (!term || term.length < 2) return of([]);
+    const getCountries = (term: string) => countries.filter(e => e.name.toLowerCase().startsWith(term.toLowerCase()));
+    return of(getCountries(term)).pipe(tap(() => getCountries(term)));
   }
 
 }
