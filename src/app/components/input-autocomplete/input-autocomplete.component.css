@@ -1,23 +1,56 @@
-:host::ng-deep .list-item {
+.list-item {
   padding: 4px 4px;
   margin: 2px;
 }
 
-:host::ng-deep .list-item:hover {
+.list-item:hover {
   background-color: #dddddd;
 }
 
-ul, select {
+ul {
   position: relative;
   display: inline-block;
-  width: 152px;
+  width: 153px;
   background-color: #444444;
   color: #ffffff;
   cursor: pointer;
   list-style-type: none;
   margin: 0;
   padding: 0px;
+  overflow-x: hidden;
+  max-height: 300px;
+  scroll-margin: unset;
+  scroll-behavior: smooth;
 }
+
+/*
+* scrollbars 
+*/
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* 
+* Track 
+*/
+::-webkit-scrollbar-track {
+  background: #444444;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+/*
+  Component wrappers
+*/
 
 #input {
   display: inline-block;

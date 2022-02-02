@@ -1,21 +1,20 @@
 <div class="container">
     <p>Autocomplete Example</p>
-    <div id="setter">
+    <div id="input">
         <input #input [(ngModel)]="inputValue" />
     </div>
 
     <div class="container-output">
-        <ul #output></ul>
+        <ul #output *ngIf="isDisplayed">
+            <li class="list-item" *ngFor="let country of countries" value="country.code"
+                (click)="selectOption(country)">
+                {{ country.name }}
+            </li>
+        </ul>
         <br>
         <hr />
         <pre>
-            {{ selected | json }}
+            {{ selectedOption | json }}
         </pre>
-        <!-- <select [(ngModel)]="selected" name="countries" id="countries" *ngIf="countries.length"
-            (change)="selectOption($event)">
-            <option [ngValue]="country" *ngFor="let country of countries" class="list-item">
-                {{ country.name }}
-            </option>
-        </select> -->
     </div>
 </div>

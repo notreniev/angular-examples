@@ -15,29 +15,23 @@ export class InputAutocompleteComponent implements OnInit, AfterViewInit, OnDest
   public inputValue = "";
   public keyupSubscription: Subscription;
   public countries: ItemModel[] = [];
-  public selected: ItemModel;
+  public selectedOption: ItemModel;
+  public isDisplayed: boolean;
 
   constructor() { }
 
+  public ngOnInit(): void { }
 
   public ngAfterViewInit(): void {
-    this.filterCountriesFromInput();
+    this.filter();
   }
-
-  public selectOption(event){
-    console.log('selected', event.target.value, this.selected)
-    this.inputValue = this.selected.name;
-    this.countries = [];
-  }
-
-  public ngOnInit(): void { }
 
   /**
    * Starts to listen values from 
    * the users's input
    * 
    */
-  public filterCountriesFromInput(): void {
+  public filter(): void {
     this.keyupSubscription = fromEvent(this.inputRef.nativeElement, 'keyup')
       .pipe(
         debounceTime(200),
@@ -49,20 +43,15 @@ export class InputAutocompleteComponent implements OnInit, AfterViewInit, OnDest
       .subscribe((data: ItemModel[]) => this.showResults(data));
   }
 
-  public showResults(res: ItemModel[]): void {
-    this.countries = res;
-    this.outputRef.nativeElement.innerHTML = res
-      .map((e: ItemModel) => `<li class="list-item" value="${e?.code}">${e?.name}</li>`).join('');
+  public showResults(data: ItemModel[]): void {
+    this.countries = data;
+    this.isDisplayed = true;
   }
 
-  @HostListener('click', ['$event.target'])
-  public clicked(elem?: HTMLElement): void {
-    if (!elem.innerText) return;
-    const selectedCode = elem.getAttribute('value');
-    this.inputValue = elem.innerText;
-    this.selected = {name: this.inputValue, code: selectedCode};
-    this.outputRef.nativeElement.innerHTML = [];
-    elem.innerText = "";
+  public selectOption(option: ItemModel): void {
+    this.inputValue = option.name;
+    this.selectedOption = option;
+    this.countries = [];
   }
 
   public ngOnDestroy(): void {
@@ -75,10 +64,22 @@ export class InputAutocompleteComponent implements OnInit, AfterViewInit, OnDest
    * @param keys 
    * @returns 
    */
-  public fakeCountriesRequest(term: string): Observable<ItemModel[]> {
-    if (!term || term.length < 2) return of([]);
-    const getCountries = (term: string) => countries.filter(e => e.name.toLowerCase().startsWith(term.toLowerCase()));
-    return of(getCountries(term)).pipe(tap(() => getCountries(term)));
+  public fakeCountriesRequest(name?: string): Observable<ItemModel[]> {
+    // if (!term || term.length < 2) return of([]);
+    const getCountries = (name?: string) => {
+      if (name && name.length > 0) {
+        return countries.filter(country => country.name.toLowerCase().startsWith(name.toLowerCase()));
+      } else {
+        return countries;
+      }
+    };
+    return of(getCountries(name)).pipe(tap(() => getCountries(name)));
   }
 
+  @HostListener("document:click", ["$event"])
+  public onDocumentClick(event: MouseEvent): void {
+    if (this.isDisplayed && !this.outputRef.nativeElement.contains(event.target as Element)) {
+      this.isDisplayed = false;
+    }
+  }
 }
