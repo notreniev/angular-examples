@@ -7,16 +7,18 @@
             'fa-chevron-up': isDisplayed}" (click)="showResults()">
         </i>
 
-        <input #input [(ngModel)]="inputValue" (focusout)="onFocusOut()" />
+        <input #input type="text" [(ngModel)]="inputValue" (focusout)="focusOut()" />
     </div>
 
     <div class="container-output">
-        <ul #output *ngIf="isDisplayed">
-            <li class="list-item" *ngFor="let country of countries" value="country.code"
-                (click)="selectOption(country)">
-                {{ country.name }}
-            </li>
-        </ul>
+        <div *ngIf="isDisplayed">
+            <ul #output>
+                <li class="list-item" *ngFor="let country of countries" value="country.code"
+                    (click)="selectOption(country)">
+                    {{ country.name }}
+                </li>
+            </ul>
+        </div>
         <br>
         <hr />
         <pre>

@@ -52,11 +52,16 @@ export class InputAutocompleteComponent implements OnInit, AfterViewInit, OnDest
   public selectOption(option: CountryModel): void {
     this.inputValue = option.name;
     this.selectedOption = option;
+    this.isDisplayed = false;
     this.countries = [];
   }
 
   public ngOnDestroy(): void {
     this.keyupSubscription.unsubscribe();
+  }
+
+  public focusOut() {
+    this.isDisplayed = false;
   }
 
   /**
@@ -77,10 +82,6 @@ export class InputAutocompleteComponent implements OnInit, AfterViewInit, OnDest
       }
     };
     return of(getCountries(name)).pipe(tap(() => getCountries(name)));
-  }
-
-  onFocusOut() {
-    this.isDisplayed = false;
   }
 
   // @HostListener("document:click", ["$event"])
