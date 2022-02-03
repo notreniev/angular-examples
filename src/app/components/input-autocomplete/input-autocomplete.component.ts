@@ -44,9 +44,9 @@ export class InputAutocompleteComponent implements OnInit, AfterViewInit, OnDest
       .subscribe((data: CountryModel[]) => this.showResults(data));
   }
 
-  public showResults(data: CountryModel[]): void {
-    this.countries = data;
-    this.isDisplayed = true;
+  public showResults(data?: CountryModel[]): void {
+    this.countries = data ? data : this.countryService.getCountryList();
+    this.isDisplayed = !this.isDisplayed;
   }
 
   public selectOption(option: CountryModel): void {
@@ -66,7 +66,7 @@ export class InputAutocompleteComponent implements OnInit, AfterViewInit, OnDest
    * @returns 
    */
   public fakeCountriesRequest(name?: string): Observable<CountryModel[]> {
-    // if (!term || term.length < 2) return of([]);
+    // if (!name || name.length < 2) return of([]);
     const getCountries = (name?: string) => {
       if (name && name.length > 0) {
         return this.countryService
@@ -79,10 +79,14 @@ export class InputAutocompleteComponent implements OnInit, AfterViewInit, OnDest
     return of(getCountries(name)).pipe(tap(() => getCountries(name)));
   }
 
-  @HostListener("document:click", ["$event"])
-  public onDocumentClick(event: MouseEvent): void {
-    if (this.isDisplayed && !this.outputRef.nativeElement.contains(event.target as Element)) {
-      this.isDisplayed = false;
-    }
+  onFocusOut() {
+    this.isDisplayed = false;
   }
+
+  // @HostListener("document:click", ["$event"])
+  // public onDocumentClick(event: MouseEvent): void {
+  //   if (this.isDisplayed && !this.outputRef.nativeElement.contains(event.target as Element)) {
+  //     this.isDisplayed = false;
+  //   }
+  // }
 }

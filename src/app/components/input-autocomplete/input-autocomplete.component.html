@@ -1,7 +1,13 @@
 <div class="container">
     <p>Autocomplete Example</p>
-    <div id="input">
-        <input #input [(ngModel)]="inputValue" />
+    <br>
+    <div>
+        <i class="fa" [ngClass]="{
+            'fa-chevron-down': !isDisplayed,
+            'fa-chevron-up': isDisplayed}" (click)="showResults()">
+        </i>
+
+        <input #input [(ngModel)]="inputValue" (focusout)="onFocusOut()" />
     </div>
 
     <div class="container-output">
