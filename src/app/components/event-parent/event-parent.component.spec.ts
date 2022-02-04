@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { EventChildComponent } from '../event-child/event-child.component';
 
 import { EventParentComponent } from './event-parent.component';
 
@@ -8,9 +9,9 @@ describe('EventParentComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EventParentComponent ]
+      declarations: [EventParentComponent, EventChildComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

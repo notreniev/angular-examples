@@ -8,9 +8,9 @@ describe('EventChildComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EventChildComponent ]
+      declarations: [EventChildComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
