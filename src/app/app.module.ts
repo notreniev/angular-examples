@@ -8,6 +8,7 @@ import { EventChildComponent } from './components/event-child/event-child.compon
 import { EventParentComponent } from './components/event-parent/event-parent.component';
 import { InputAutocompleteComponent } from './components/input-autocomplete/input-autocomplete.component';
 import { FormsModule } from '@angular/forms';
+import { ModalComponent } from './components/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { FormsModule } from '@angular/forms';
     HomeComponent,
     EventChildComponent,
     EventParentComponent,
-    InputAutocompleteComponent
+    InputAutocompleteComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
