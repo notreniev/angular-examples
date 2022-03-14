@@ -9,6 +9,8 @@ import { EventParentComponent } from './components/event-parent/event-parent.com
 import { InputAutocompleteComponent } from './components/input-autocomplete/input-autocomplete.component';
 import { FormsModule } from '@angular/forms';
 import { ModalComponent } from './components/modal/modal.component';
+import { CounterComponent } from './components/counter-component/counter-component.component';
+import { ChangeDetectionComponent } from './components/change-detection/change-detection.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { ModalComponent } from './components/modal/modal.component';
     EventChildComponent,
     EventParentComponent,
     InputAutocompleteComponent,
-    ModalComponent
+    ModalComponent,
+    ChangeDetectionComponent,
+    CounterComponent
   ],
   imports: [
     BrowserModule,
@@ -25,6 +29,6 @@ import { ModalComponent } from './components/modal/modal.component';
     AppRoutingModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
