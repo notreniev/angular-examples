@@ -16,7 +16,7 @@ export class CounterComponent implements OnInit {
   ngOnInit(): void {
     this.data$.subscribe((value) => {
       this.data = value;
-      this.changeDetection.markForCheck();
+      this.changeDetection.markForCheck()
     })
   }
 
